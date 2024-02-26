@@ -94,17 +94,25 @@ The graph data model captures the interactions between users, emails, mailing li
 
 This section contains the Cypher queries and scripts used to ingest the email data into the graph database. Each query is accompanied by an explanation of its purpose and how it maps the data to the graph model. These queries are crucial for structuring the raw email data in a way that aligns with our graph data model.
 
+{{place-holder for the ingest queries}}
+
 ## Data Analysis Queries
 
 Here, we list the Cypher queries and scripts used for analyzing the ingested data. These queries are designed to extract insights from the graph database, such as identifying influential users, tracking the evolution of discussion topics, and analyzing communication patterns within the ASF project communities.
+
+{{place-holder for the analysis queries}}
 
 ## Setup and Installation
 
 This section provides instructions for setting up the project and installing any required dependencies. It includes steps for setting up Neo4j, importing the email data into the graph database, and preparing the environment for running the ingest and analysis queries.
 
+{{place-holder for setup and installation instructions}}
+
 ## Usage
 
 In this section, we explain how to use the project, including how to execute the ingest and analysis queries. It provides examples of commands or scripts to run, making it easy for users to get started with analyzing the ASF project email data.
+
+{{place-holder for usage instructions}}
 
 ## License
 
