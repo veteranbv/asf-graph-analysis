@@ -94,7 +94,40 @@ The graph data model captures the interactions between users, emails, mailing li
 
 This section contains the Cypher queries and scripts used to ingest the email data into the graph database. Each query is accompanied by an explanation of its purpose and how it maps the data to the graph model. These queries are crucial for structuring the raw email data in a way that aligns with our graph data model.
 
-{{place-holder for the ingest queries}}
+```cypher
+// Cypher query to ingest the email data into the graph database
+LOAD CSV WITH HEADERS FROM 'file:///path/to/email_data.csv' AS row
+MERGE (p:Project {name: row.project})
+MERGE (ml:MailingList {list_name: row.list})
+MERGE (e:Email {
+  message_id: row.message_id,
+  subject: row.subject,
+  header_datetime: row.header_datetime,
+  sentiment_analysis: row.sentiment_analysis,
+  category_classification: row.category_classification,
+  summary: row.summary,
+  content_SHA256: row.content_SHA256
+})
+MERGE (u:User {email: row.sender_email, name: row.sender_name})
+MERGE (u)-[:SENT]->(e)
+MERGE (e)-[:SENT_TO]->(ml)
+MERGE (ml)-[:BELONGS_TO]->(p)
+
+WITH e, row
+UNWIND split(row.key_topics, ',') AS topic
+MERGE (t:Topic {topic_name: topic})
+MERGE (e)-[:DISCUSSES]->(t)
+
+WITH e, row
+UNWIND split(row.references, ',') AS ref_id
+MERGE (ref:Email {message_id: ref_id})
+MERGE (e)-[:REFERENCES]->(ref)
+
+WITH e, row
+WHERE row.in_reply_to IS NOT NULL
+MATCH (reply_to:Email {message_id: row.in_reply_to})
+MERGE (e)-[:REPLIES_TO]->(reply_to)
+```
 
 ## Data Analysis Queries
 
